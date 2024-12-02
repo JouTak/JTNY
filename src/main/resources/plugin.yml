@@ -1,0 +1,7 @@
+name: JTNY
+version: '1.0-SNAPSHOT'
+main: com.joutak.jtny.JouTakNewYear
+api-version: '1.20'
+commands:
+  skates:
+    description: Hello
