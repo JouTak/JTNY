@@ -4,6 +4,8 @@ import com.joutak.jtny.commands.IceSkatesCommand
 import com.joutak.jtny.listeners.IceSkates
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
+
 
 class JouTakNewYear : JavaPlugin() {
     companion object {
@@ -14,9 +16,16 @@ class JouTakNewYear : JavaPlugin() {
     override fun onEnable() {
         // Plugin startup logic
         instance = this
+        val fx = File(dataFolder, "config.yml")
+        if (!fx.exists()) {
+            saveResource("config.yml", true)
+        }
+
+        // Register commands and events
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
         getCommand("skates")!!.setExecutor(IceSkatesCommand)
-        logger.info("JTNY enabled 1")
+
+        logger.info("JTNY version ${pluginMeta.version} enabled!")
     }
 
     override fun onDisable() {
