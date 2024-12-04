@@ -16,7 +16,7 @@ class JouTakNewYear : JavaPlugin() {
         instance = this
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
         getCommand("skates")!!.setExecutor(IceSkatesCommand)
-        logger.info("JTNY enabled 1")
+        logger.info("JTNY version ${pluginMeta.version} enabled!")
     }
 
     override fun onDisable() {
