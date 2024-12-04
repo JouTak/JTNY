@@ -1,5 +1,5 @@
 # JTNY
-JouTak New Year plugin
+JouTak New Year plugin for JouTak <ins>(joutak.ru-mc.ru)</ins>
 
 ## Building JAR
 
