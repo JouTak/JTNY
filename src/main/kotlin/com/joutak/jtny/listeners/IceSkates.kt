@@ -8,9 +8,13 @@ import org.bukkit.block.Block
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.metadata.FixedMetadataValue
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sign
+
 
 object IceSkates : Listener {
     private fun isIce(block: Block): Boolean {
@@ -20,6 +24,7 @@ object IceSkates : Listener {
         }
     }
 
+    @Suppress("DEPRECATION")
     @EventHandler
     fun onPlayerMove(e: PlayerMoveEvent) {
         val to = e.to.clone()
@@ -28,26 +33,45 @@ object IceSkates : Listener {
             return
         }
         val player = e.player
-        if (player.isFlying || !player.isSneaking) {
+        if (player.isFlying) {
             return
         }
-        if (!isIce(player.location.subtract(0.0, 0.5, 0.0).block)) {
-            if (player.walkSpeed != .2f) {
-                player.walkSpeed = .2f
+        if (player.hasMetadata("fell")) {
+            val ceilLocation = e.to.clone().add(0.0, 1.0, 0.0)
+            if (!ceilLocation.block.isSolid) {
+                player.sendBlockChange(ceilLocation, Material.BARRIER.createBlockData())
+            }
+            Timer().schedule(1000) {
+                player.sendBlockChange(ceilLocation, ceilLocation.block.blockData)
             }
             return
         }
-        val boots = player.inventory.boots
-        if (boots == null) {
-            if (player.walkSpeed != .2f) {
-                player.walkSpeed = .2f
+        val blockBelow = player.location.subtract(0.0, 0.5, 0.0).block
+        val velocity = player.velocity
+        if (!isIce(blockBelow) || !player.isSneaking) {
+            if (player.hasMetadata("skating") && velocity.length() > 0.4) {
+                player.removeMetadata("skating", JouTakNewYear.instance)
+                player.setMetadata("fell", FixedMetadataValue(JouTakNewYear.instance, true))
+                player.sendMessage("test")
+                player.sendMessage(e.to.clone().toString())
+                player.damage(velocity.length() * 5)
+                player.isSwimming = true
+                val walkSpeed = player.walkSpeed
+                player.walkSpeed = 0.0f
+                Timer().schedule(1000) {
+                    player.removeMetadata("fell", JouTakNewYear.instance)
+                    player.walkSpeed = walkSpeed
+                    player.isSwimming = false
+                }
             }
             return
         }
+        val boots = player.inventory.boots ?: return
         val nbtKey = NamespacedKey(JouTakNewYear.instance, "isSkates")
         if (boots.itemMeta.persistentDataContainer.has(nbtKey)) {
+            if (!player.hasMetadata("skating"))
+                player.setMetadata("skating", FixedMetadataValue(JouTakNewYear.instance, true))
             val direction = player.location.direction
-            val velocity = player.velocity
             // set direction independent of pitch
             direction.y = 0.0
             direction.normalize().multiply(Config.acceleration)
