@@ -12,14 +12,20 @@ import org.bukkit.persistence.PersistentDataType
 
 object IceSkatesCommand: CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+        if (sender !is Player) {
+            sender.sendMessage("команда только для игроков!")
+            return false
+        }
+        if (!sender.isOp()) {
+            sender.sendMessage("команда только для операторов!")
+            return false
+        }
         val nbtKey = NamespacedKey(JouTakNewYear.instance, "isSkates")
         val boots = ItemStack(Material.IRON_BOOTS)
         val itemMeta = boots.itemMeta
         itemMeta.persistentDataContainer.set(nbtKey, PersistentDataType.BOOLEAN, true)
         boots.itemMeta = itemMeta
-        if (sender is Player) {
-            sender.inventory.addItem(boots)
-        }
+        sender.inventory.addItem(boots)
         sender.sendMessage("держи коньки")
         return true
     }
