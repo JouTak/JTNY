@@ -1,6 +1,10 @@
 package com.joutak.jtny.commands
 
 import com.joutak.jtny.JouTakNewYear
+import net.kyori.adventure.bossbar.BossBar.Color
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.Style
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.command.Command
@@ -20,10 +24,9 @@ object IceSkatesCommand: CommandExecutor {
             sender.sendMessage("команда только для операторов!")
             return false
         }
-        val nbtKey = NamespacedKey(JouTakNewYear.instance, "isSkates")
         val boots = ItemStack(Material.IRON_BOOTS)
         val itemMeta = boots.itemMeta
-        itemMeta.persistentDataContainer.set(nbtKey, PersistentDataType.BOOLEAN, true)
+        itemMeta.displayName(Component.text("Коньки", Style.style(TextColor.color(0x55ffff))))
         boots.itemMeta = itemMeta
         sender.inventory.addItem(boots)
         sender.sendMessage("держи коньки")

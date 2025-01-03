@@ -2,6 +2,10 @@ package com.joutak.jtny.listeners
 
 import com.joutak.jtny.Config
 import com.joutak.jtny.JouTakNewYear
+import net.kyori.adventure.bossbar.BossBar.Color
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.Style
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.block.Block
@@ -68,7 +72,8 @@ object IceSkates : Listener {
         }
         val boots = player.inventory.boots ?: return
         val nbtKey = NamespacedKey(JouTakNewYear.instance, "isSkates")
-        if (boots.itemMeta.persistentDataContainer.has(nbtKey)) {
+        if (boots.itemMeta.hasDisplayName() && boots.itemMeta.displayName() == Component.text("Коньки", Style.style(
+                TextColor.color(0x55ffff)))) {
             if (!player.hasMetadata("skating"))
                 player.setMetadata("skating", FixedMetadataValue(JouTakNewYear.instance, true))
             val direction = player.location.direction
