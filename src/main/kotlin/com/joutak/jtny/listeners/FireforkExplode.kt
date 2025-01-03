@@ -9,6 +9,7 @@ import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.Particle.DustOptions
 import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.event.entity.FireworkExplodeEvent
 import java.io.File
 import java.io.IOException
@@ -17,7 +18,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-object FireforkExplode {
+object FireforkExplode : Listener {
     @EventHandler
     @Throws(IOException::class)
     fun onFireworkExplode(event: FireworkExplodeEvent) {
