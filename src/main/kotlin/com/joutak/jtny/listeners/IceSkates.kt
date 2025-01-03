@@ -56,8 +56,6 @@ object IceSkates : Listener {
             if (player.hasMetadata("skating") && velocity.length() > 0.8) {
                 player.removeMetadata("skating", JouTakNewYear.instance)
                 player.setMetadata("fell", FixedMetadataValue(JouTakNewYear.instance, true))
-                player.sendMessage("test")
-                player.sendMessage(e.to.clone().toString())
                 player.damage(velocity.length() * 5)
                 player.isSwimming = true
                 val walkSpeed = player.walkSpeed
