@@ -1,6 +1,7 @@
 package com.joutak.jtny
 
 import com.joutak.jtny.commands.IceSkatesCommand
+import com.joutak.jtny.listeners.FireforkExplode
 import com.joutak.jtny.listeners.IceSkates
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -23,6 +24,7 @@ class JouTakNewYear : JavaPlugin() {
 
         // Register commands and events
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
+        Bukkit.getPluginManager().registerEvents(FireforkExplode, this)
         getCommand("skates")!!.setExecutor(IceSkatesCommand)
 
         logger.info("JTNY version ${pluginMeta.version} enabled!")
