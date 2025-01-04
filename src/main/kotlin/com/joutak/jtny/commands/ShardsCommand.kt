@@ -30,7 +30,11 @@ object ShardsCommand : CommandExecutor {
         itemMeta.lore(
             listOf(
                 Component.text(
-                    "Получен на новогодней ярмарке 2025",
+                    "Получен на новогодней",
+                    Style.style(TextColor.color(0xd8a234), TextDecoration.BOLD)
+                ),
+                Component.text(
+                    "ярмарке 2025",
                     Style.style(TextColor.color(0xd8a234), TextDecoration.BOLD)
                 )
             )
