@@ -16,7 +16,7 @@ object ShardsCommand : CommandExecutor {
             sender.sendMessage("команда только для игроков!")
             return false
         }
-        if (!sender.isOp()) {
+        if (!sender.hasPermission("joutak.newyear.admin") && !sender.isOp()) {
             sender.sendMessage("команда только для операторов!")
             return false
         }

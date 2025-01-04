@@ -1,18 +1,14 @@
 package com.joutak.jtny.commands
 
-import com.joutak.jtny.JouTakNewYear
-import net.kyori.adventure.bossbar.BossBar.Color
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.Style
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
-import org.bukkit.NamespacedKey
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 
 object IceSkatesCommand: CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
@@ -20,7 +16,7 @@ object IceSkatesCommand: CommandExecutor {
             sender.sendMessage("команда только для игроков!")
             return false
         }
-        if (!sender.isOp()) {
+        if (!sender.hasPermission("joutak.newyear.admin") && !sender.isOp()) {
             sender.sendMessage("команда только для операторов!")
             return false
         }
