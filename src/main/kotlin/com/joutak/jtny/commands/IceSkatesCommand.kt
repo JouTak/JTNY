@@ -16,8 +16,8 @@ object IceSkatesCommand: CommandExecutor {
             sender.sendMessage("команда только для игроков!")
             return false
         }
-        if (!sender.hasPermission("joutak.newyear.admin") && !sender.isOp()) {
-            sender.sendMessage("команда только для операторов!")
+        if (!sender.hasPermission("joutak.newyear.admin")) {
+            sender.sendMessage("команда только для администраторов!")
             return false
         }
         val boots = ItemStack(Material.IRON_BOOTS)
