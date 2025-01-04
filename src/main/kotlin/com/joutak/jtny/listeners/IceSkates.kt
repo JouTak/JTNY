@@ -2,6 +2,10 @@ package com.joutak.jtny.listeners
 
 import com.joutak.jtny.Config
 import com.joutak.jtny.JouTakNewYear
+import net.kyori.adventure.bossbar.BossBar.Color
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.Style
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.block.Block
@@ -48,12 +52,10 @@ object IceSkates : Listener {
         }
         val blockBelow = player.location.subtract(0.0, 0.5, 0.0).block
         val velocity = player.velocity
-        if (!isIce(blockBelow) || !player.isSneaking) {
-            if (player.hasMetadata("skating") && velocity.length() > 0.4) {
+        if (!isIce(blockBelow) || !player.isSneaking && blockBelow.type != Material.AIR) {
+            if (player.hasMetadata("skating") && velocity.length() > 0.8) {
                 player.removeMetadata("skating", JouTakNewYear.instance)
                 player.setMetadata("fell", FixedMetadataValue(JouTakNewYear.instance, true))
-                player.sendMessage("test")
-                player.sendMessage(e.to.clone().toString())
                 player.damage(velocity.length() * 5)
                 player.isSwimming = true
                 val walkSpeed = player.walkSpeed
@@ -68,7 +70,8 @@ object IceSkates : Listener {
         }
         val boots = player.inventory.boots ?: return
         val nbtKey = NamespacedKey(JouTakNewYear.instance, "isSkates")
-        if (boots.itemMeta.persistentDataContainer.has(nbtKey)) {
+        if (boots.itemMeta.hasDisplayName() && boots.itemMeta.displayName() == Component.text("Коньки", Style.style(
+                TextColor.color(0x55ffff)))) {
             if (!player.hasMetadata("skating"))
                 player.setMetadata("skating", FixedMetadataValue(JouTakNewYear.instance, true))
             val direction = player.location.direction
