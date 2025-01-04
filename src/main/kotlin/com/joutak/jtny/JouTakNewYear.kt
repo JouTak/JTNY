@@ -1,6 +1,7 @@
 package com.joutak.jtny
 
 import com.joutak.jtny.commands.IceSkatesCommand
+import com.joutak.jtny.commands.ShardsCommand
 import com.joutak.jtny.listeners.IceSkates
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -24,6 +25,7 @@ class JouTakNewYear : JavaPlugin() {
         // Register commands and events
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
         getCommand("skates")!!.setExecutor(IceSkatesCommand)
+        getCommand("shards")!!.setExecutor(ShardsCommand)
 
         logger.info("JTNY version ${pluginMeta.version} enabled!")
     }
