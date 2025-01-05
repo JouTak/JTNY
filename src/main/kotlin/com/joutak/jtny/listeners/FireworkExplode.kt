@@ -18,7 +18,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-object FireforkExplode : Listener {
+object FireworkExplode : Listener {
     @EventHandler
     @Throws(IOException::class)
     fun onFireworkExplode(event: FireworkExplodeEvent) {
