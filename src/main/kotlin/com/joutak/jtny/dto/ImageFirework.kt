@@ -1,6 +1,5 @@
 package com.joutak.jtny.dto
 
-import com.joutak.jtny.JouTakNewYear
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 
 
