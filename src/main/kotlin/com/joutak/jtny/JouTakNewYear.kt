@@ -4,6 +4,7 @@ import com.joutak.jtny.commands.IceSkatesCommand
 import com.joutak.jtny.commands.ShardsCommand
 import com.joutak.jtny.listeners.IceSkates
 import org.bukkit.Bukkit
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -14,13 +15,23 @@ class JouTakNewYear : JavaPlugin() {
         lateinit var instance: JouTakNewYear
     }
 
-    override fun onEnable() {
-        // Plugin startup logic
-        instance = this
+    private var customConfig = YamlConfiguration()
+
+    fun loadConfig() {
         val fx = File(dataFolder, "config.yml")
         if (!fx.exists()) {
             saveResource("config.yml", true)
         }
+        customConfig.load(fx)
+        Config.acceleration = customConfig.getDouble("skates.acceleration")
+        Config.maxSpeed = customConfig.getDouble("skates.max-speed")
+    }
+
+    override fun onEnable() {
+        // Plugin startup logic
+        instance = this
+
+        loadConfig()
 
         // Register commands and events
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
