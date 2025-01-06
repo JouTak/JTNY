@@ -23,8 +23,8 @@ class JouTakNewYear : JavaPlugin() {
             saveResource("config.yml", true)
         }
         customConfig.load(fx)
-        Config.acceleration = customConfig.getDouble("skates.acceleration")
-        Config.maxSpeed = customConfig.getDouble("skates.max-speed")
+        Config.acceleration = customConfig.getDouble("skating.acceleration")
+        Config.maxSpeed = customConfig.getDouble("skating.max-speed")
     }
 
     override fun onEnable() {
