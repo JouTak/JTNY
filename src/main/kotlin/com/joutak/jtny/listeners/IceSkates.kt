@@ -23,7 +23,7 @@ import kotlin.math.sign
 object IceSkates : Listener {
     private fun isIce(block: Block): Boolean {
         return when (block.type) {
-            Material.ICE, Material.BLUE_ICE, Material.PACKED_ICE -> true
+            Material.ICE, Material.BLUE_ICE, Material.PACKED_ICE, Material.FROSTED_ICE -> true
             else -> false
         }
     }
