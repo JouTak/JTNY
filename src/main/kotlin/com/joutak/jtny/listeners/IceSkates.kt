@@ -53,7 +53,7 @@ object IceSkates : Listener {
         val blockBelow = player.location.subtract(0.0, 0.5, 0.0).block
         val velocity = player.velocity
         if ((!isIce(blockBelow) && blockBelow.type != Material.AIR) || !player.isSneaking) {
-            if (player.hasMetadata("skating") && velocity.length() > 0.8) {
+            if (player.hasMetadata("skating") && velocity.length() > 0.4) {
                 player.removeMetadata("skating", JouTakNewYear.instance)
                 player.setMetadata("fell", FixedMetadataValue(JouTakNewYear.instance, true))
                 player.damage(velocity.length() * 5)
