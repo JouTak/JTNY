@@ -19,6 +19,9 @@ import kotlin.math.sin
 
 
 object FireworkExplode : Listener {
+
+    var particles = 0
+
     @EventHandler
     @Throws(IOException::class)
     fun onFireworkExplode(event: FireworkExplodeEvent) {
@@ -27,7 +30,7 @@ object FireworkExplode : Listener {
         if (!fireworkMeta.hasCustomModelData()) return
         val modelData = fireworkMeta.customModelData
 
-        val imageFirework: ImageFirework = Config.fireworks.find { firework: ImageFirework -> firework.modelData == modelData } ?: return
+        val imageFirework: ImageFirework = Config.fireworks.find { fw: ImageFirework -> fw.modelData == modelData } ?: return
         val explodeLocation: Location = event.entity.location
         val yawRotation = explodeLocation.yaw.toDouble()
 
@@ -38,16 +41,21 @@ object FireworkExplode : Listener {
     private fun displayImage(firework: ImageFirework, explodeLocation: Location, yawRotation: Double) {
         val plugin = JouTakNewYear.instance
 
-        val imageFile: File = File(plugin.dataFolder, "images/${firework.imageName}")
+        val imageFile = File(plugin.dataFolder, "images/${firework.imageName}")
         if (!imageFile.exists()) {
             plugin.logger.warning("Image file not found: ${firework.imageName}")
             return
         }
 
-
         val image = ImageIO.read(imageFile)
         val width = image.width
         val height = image.height
+
+        if (particles + width * height > Config.particleLimit) {
+            JouTakNewYear.instance.logger.warning("Too many particles, image won't be displayed")
+            return
+        }
+        particles += width * height
 
         val yawRadians = Math.toRadians(yawRotation)
 
@@ -76,6 +84,6 @@ object FireworkExplode : Listener {
             }
         }, 0L, 3L)
 
-        Bukkit.getScheduler().runTaskLater(plugin, Runnable { taskId.cancel() }, firework.displayTime * 20L)
+        Bukkit.getScheduler().runTaskLater(plugin, Runnable { taskId.cancel(); particles -= width * height}, firework.displayTime * 20L)
     }
 }
