@@ -1,6 +1,8 @@
 package com.joutak.jtny
 
 import com.joutak.jtny.commands.IceSkatesCommand
+import com.joutak.jtny.dto.ImageFirework
+import com.joutak.jtny.listeners.FireworkExplode
 import com.joutak.jtny.commands.ShardsCommand
 import com.joutak.jtny.listeners.IceSkates
 import org.bukkit.Bukkit
@@ -23,8 +25,13 @@ class JouTakNewYear : JavaPlugin() {
             saveResource("config.yml", true)
         }
         customConfig.load(fx)
-        Config.acceleration = customConfig.getDouble("skating.acceleration")
-        Config.maxSpeed = customConfig.getDouble("skating.max-speed")
+        Config.acceleration = customConfig.getDouble("skates.acceleration")
+        Config.maxSpeed = customConfig.getDouble("skates.max-speed")
+        Config.particleLimit = customConfig.getInt("image-fireworks.particle-limit")
+        val fireworkMaps = customConfig.getList("image-fireworks.list") as? List<Map<String, Any>> ?: return
+        logger.info("Fireworks: $fireworkMaps")
+        Config.fireworks = fireworkMaps.map { ImageFirework.deserialize(it) }
+        logger.info("Loaded ${Config.fireworks.size} fireworks: ${Config.fireworks}")
     }
 
     override fun onEnable() {
@@ -35,6 +42,7 @@ class JouTakNewYear : JavaPlugin() {
 
         // Register commands and events
         Bukkit.getPluginManager().registerEvents(IceSkates, this)
+        Bukkit.getPluginManager().registerEvents(FireworkExplode, this)
         getCommand("skates")!!.setExecutor(IceSkatesCommand)
         getCommand("shards")!!.setExecutor(ShardsCommand)
 
