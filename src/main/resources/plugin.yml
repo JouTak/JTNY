@@ -5,3 +5,9 @@ api-version: '1.20'
 commands:
   skates:
     description: Hello
+  shards:
+    description: Hello
+permissions:
+  joutak.newyear.admin:
+    description: Доступ к командам админа в JTNY
+    default: op
